@@ -12,7 +12,7 @@ The cleaned dataset for the cross-sectional survey for rat signs, traps and trac
 #### 2. Human data
 File: [1-PdLHumanData.csv](https://github.com/maxeyre/Rattiness-1/blob/master/Data/1-PdLHumanData.csv) 
 
-The cleaned dataset for the human follow-up period in Pau da Lima community, Salvador, Brazil. It is georeferenced and includes all relevant covariate values used in the model described in the article. A codebook for variables can be found [here](https://github.com/maxeyre/Rattiness-1/blob/master/codebook.md). This dataset was collected by and belongs to the [Instituto de Saúde Coletiva, Universidade Federal da Bahia (ISC-UFBA)](http://www.isc.ufba.br/). If you use this dataset please could you cite ISC-UFBA and this published article (see license at bottom of page).
+The cleaned dataset for the human cohort study in Pau da Lima community, Salvador, Brazil. It is georeferenced and includes all relevant covariate values used in the model described in the article. A codebook for variables can be found [here](https://github.com/maxeyre/Rattiness-1/blob/master/codebook.md). This dataset was collected by and belongs to the [Instituto de Saúde Coletiva, Universidade Federal da Bahia (ISC-UFBA)](http://www.isc.ufba.br/). If you use this dataset please could you cite ISC-UFBA and this published article (see license at bottom of page).
 
 #### 3. Prediction grid
 File: [2-PdLPredictionGrid.csv](https://github.com/maxeyre/Rattiness-1/blob/master/Data/2-PdLPredictionGrid.csv)
