@@ -23,7 +23,7 @@ A 2.5m by 2.5m prediction grid with covariate values within the Pau da Lima stud
 #### 4. Model control parameters for rattiness model
 This contains a set of parameters for controlling the rattiness model you wish to fit, each column is used as follows:
 - `rat`: rattiness covariates you wish to include.
-- `rat_par0`: starting values for rattiness parameters (regression coefficients, φ). Set to `FALSE` to fit model with starting values equal to zero.
+- `rat_par0`: starting values for rattiness parameters, order: regression coefficients, φ (scale of spatial correlation). Set to `FALSE` to fit model with starting values equal to zero.
 - `with_Ui`: set to `TRUE` or `FALSE` to include/not include location-level iid random effects.
 - `psi0`: starting value for ψ.
 
@@ -33,7 +33,7 @@ File: [control_R-rat_explore_R_H_spat_withnugg.csv](https://github.com/maxeyre/r
 This contains a set of parameters for controlling the joint rattiness-infection model you wish to fit, each column is used as follows:
 - `human`: human covariates you wish to include.
 - `rat`: rattiness covariates you wish to include.
-- `rat_par0`: starting values for rattiness parameters (regression coefficients, φ). Set to `FALSE` to fit model with starting values equal to zero.
+- `rat_par0`:  starting values for rattiness parameters, order: regression coefficients, φ (scale of spatial correlation). Set to `FALSE` to fit model with starting values equal to zero.
 - `par0.human`: starting values for human regression coefficients. Set to `TRUE` to start with values estimated by `glm()` or `FALSE` to fit model with starting values equal to zero.
 - `multi.xi.on`: set to `TRUE` to fit a model with multiple ξ parameters to test for interactions or `FALSE` to fit a model with a single ξ parameter.
 - `xi.var`: the variable (factor) you wish to use to define different ξ parameter levels.
