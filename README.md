@@ -54,7 +54,7 @@ R scripts to conduct the analysis described in this article are available [here]
 #### 1. Exploratory analysis of rat data
 File: [1-rat-explore.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/1-rat-explore.R)
 
-#### 1. Exploratory analysis of human data
+#### 2. Exploratory analysis of human data
 File: [2-human-explore.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/2-human-explore.R)
 
 #### 3. Fit the joint rattiness-infection model and bootstrap for CIs
@@ -66,14 +66,14 @@ File: [4-spatial-prediction.R](https://github.com/maxeyre/rattiness-infection-fr
 ## Functions
 A description of all of the functions used in this analysis are given here to enable other users to use the rattiness-infection framework for their own data. If you would like to adapt the 
 
-#### 1. Exploratory analysis of rat data
-File: [1-rat-explore.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/1-rat-explore.R)
+#### 1. Non-spatial rattiness model
+File: [1-rattiness_nonspatial_model_fns.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/ECO_nonspatial_model_fns.R)
 
-#### 1. Exploratory analysis of human data
-File: [2-human-explore.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/2-human-explore.R)
+#### 2. 
+File: [2-rattiness_spatial_model_fn.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/2-human-explore.R)
 
 #### 3. Fit the joint rattiness-infection model and bootstrap for CIs
-File: [3-fit-joint-model.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/3-fit-joint-model.R)
+File: [3-rattiness_spatial_model_predict_fn.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/3-fit-joint-model.R)
 
 #### 4. Spatial prediction for rattiness and probability of infection
 File: [4-spatial-prediction.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/4-spatial-prediction.R)
