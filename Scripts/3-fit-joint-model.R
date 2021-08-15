@@ -16,10 +16,10 @@ rat <- read.csv("Data/rat_data.csv")
 human <- read.csv("Data/human_data.csv")
 
 # functions
-source(file = "Functions/RATT_EPI_alt_geostat_model_xis_fn.R")
-source(file = "Functions/RATT_EPI_alt_model_functions.R")
+source(file = "Functions/4-joint_model_fn.R")
+source(file = "Functions/5-joint_model_extra_functions.R")
 source(file = "Functions/scaling_fns.R")
-source(file = "Functions/RATT_EPI_alt_geostat_bootstrap_xis_fn.R")
+source(file = "Functions/6-joint_model_bootstrap_fn.R")
 
 ## fitting parameters (iterative method plug-in method)
 # 'euclid.norm.method' = TRUE - run until euclid norm of standardised parameter values falls below 'tol'

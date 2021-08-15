@@ -24,7 +24,7 @@ library(sjmisc)
 library(sjlabelled)
 
 ### RAT DATA ----
-source("Functions/ECO_nonspatial_model_fns.R")
+source("Functions/1-rattiness_nonspatial_model_fns.R")
 
 # Data in ----
 rat <- read.csv("Data/rat_data.csv")
@@ -176,7 +176,7 @@ pvar
 dev.off()
 
 ## Step 6 - Fit full rattiness spatial model ----
-source(file = "Functions/rattiness_ECO_model_alt_fn.R")
+source(file = "Functions/2-rattiness_spatial_model_fn.R")
 source(file = "Functions/scaling_fns.R")
 model.name <- "R-rat_explore_R_H_spat_withnugg"
 # Control sheet
@@ -192,7 +192,7 @@ output <- rattiness.eco.model.alt(control, rat,
 pred.grid.human <- read_csv("Data/human_data.csv") %>%
   dplyr::select(ID, house_id, valley, X, Y, rel_elev, dist_trash, lc_30m_imperv)
 
-source("Functions/RATT_ECO_alt_geostat_predict_fn.R")
+source("Functions/3-rattiness_spatial_model_predict_fn.R")
 
 crs.val <- CRS("+proj=utm +zone=24 +south +datum=WGS84 +units=m +no_defs")
 

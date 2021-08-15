@@ -29,8 +29,8 @@ rat <- read.csv("Data/rat_data.csv")
 human <- read.csv("Data/human_data.csv")
 
 # functions
-source(file = "Functions/RATT_EPI_alt_geostat_predict_xis_fn.R")
-source(file = "Functions/RATT_EPI_alt_model_functions.R")
+source(file = "Functions/7-joint_model_predict_fn.R")
+source(file = "Functions/5-joint_model_extra_functions.R")
 source(file = "Functions/scaling_fns.R")
 
 # fitted model parameter values
