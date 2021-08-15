@@ -28,7 +28,7 @@ source("Functions/ECO_nonspatial_model_fns.R")
 
 # Data in ----
 rat <- read.csv("Data/rat_data.csv")
-rat <- na.omit(rat)
+
 ID <- create.ID.coords(rat,~X+Y)
 U.halton <- qnorm(halton(1000,1))
 
@@ -68,6 +68,52 @@ ratUj <- rat %>%
 gam.rat <- gam(data=ratUj, U ~ s(rel_elev) + s(dist_trash)  + s(lc_30m_imperv))
 gamviz.rat <- getViz(gam.rat)
 
+width_ <- 120
+height_ <- 100
+res <- 300
+txtsize <- 12
+
+# relative elevation
+jpeg("Outputs/Rat_GAM_rel_elev.jpeg", units="mm", width=width_, height=height_, res=res)
+pp1 <- plot(gamviz.rat, select=1) + 
+  l_ciPoly(alpha=0.7) +
+  l_fitLine(linetype = 1)  +
+  l_ciBar() +
+  l_rug() +
+  theme_bw() +
+  xlab("Metres") +
+  ylab("Rattiness") +
+  theme(text = element_text(size=txtsize))
+pp1
+dev.off()
+
+# distance to refuse
+jpeg("Outputs/Rat_GAM_dist_trash.jpeg", units="mm", width=width_, height=height_, res=res)
+pp2 <- plot(gamviz.rat, select=2) + 
+  l_ciPoly(alpha=0.7) +
+  l_fitLine(linetype = 1)  +
+  l_ciBar() +
+  l_rug() +
+  theme_bw() +
+  xlab("Metres") +
+  ylab("Rattiness") +
+  theme(text = element_text(size=txtsize))
+pp2
+dev.off()
+
+# land cover
+jpeg("Outputs/Rat_GAM_land_cover.jpeg", units="mm", width=width_, height=height_, res=res)
+pp3 <- plot(gamviz.rat, select=3) + 
+  l_ciPoly(alpha=0.7, fill="gray") +
+  l_fitLine(linetype = 1)  +
+  l_ciBar() +
+  l_rug() +
+  theme_bw() +
+  xlab("Proportion impervious") +
+  ylab("Rattiness") +
+  theme(text = element_text(size=txtsize))
+pp3
+dev.off()
 
 ## Step 4 - Model selection using linear model ----
 sp <- function(x,k) max(0,x-k)
@@ -117,12 +163,17 @@ ratUj_with_cov <- rat %>%
 vari.no.cov <- variogram(ratUj_with_cov,~U,~X+Y,uvec=seq(0,100,length=10))
 env <- variog.mc.env(geodata=as.geodata(ratUj_with_cov),obj.variog=vari.no.cov,nsim=1000)
 
-ggplot() + geom_ribbon(aes(x = env$u, ymin=env$v.lower, ymax=env$v.upper), alpha=0.7, fill="gray") +
-  geom_point(data = data.frame(u=vari.no.cov$u, v=vari.no.cov$v), aes(x=u, y=v)) +
+# Variogram
+jpeg("Outputs/Rat_variogram.jpeg", units="mm", width=width_, height=height_, res=res)
+pvar <- ggplot() + geom_ribbon(aes(x = env$u, ymin=env$v.lower, ymax=env$v.upper), alpha=0.7, fill="gray") +
+  #geom_point(data = data.frame(u=vari.no.cov$u, v=vari.no.cov$v), aes(x=u, y=v)) +
   geom_line(data = data.frame(u=vari.no.cov$u, v=vari.no.cov$v), aes(x=u, y=v)) +
   theme_bw() +
   xlab("Distance (m)") +
-  ylab("Semivariance")
+  ylab("Semivariance") +
+  theme(text = element_text(size=txtsize))
+pvar
+dev.off()
 
 ## Step 6 - Fit full rattiness spatial model ----
 source(file = "Functions/rattiness_ECO_model_alt_fn.R")

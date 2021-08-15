@@ -35,7 +35,7 @@ human <- read_csv("Data/human_data.csv") %>%
   mutate_at(c("sex","valley","elev_levels","hillside","open_sewer_10m",
               "exposed_to_sewer","work_constr", "work_salesman","work_trashcollect",
               "work_mud","work_floodwater","work_sewer","floodwater_freq_bin",
-              "sew_water_freq_bin","mud_freq_bin"),as.factor)
+              "sew_water_freq_bin"),as.factor)
 
 ## Step 2 - Explore functional form of continuous variables using GAMs ----
 # age & income
@@ -65,6 +65,77 @@ gam.educ <- gam(data=human, outcome~s(age) + as.factor(sex)   +
                 s(educ_yrs), family=binomial("logit"), method="REML")
 gamviz.educ <- getViz(gam.educ)
 plot(gamviz.educ, allTerms = T) # knot at 5yrs
+
+width_ <- 120
+height_ <- 100
+res <- 300
+txtsize <- 12
+
+# age
+jpeg("Outputs/Human_GAM_age.jpeg", units="mm", width=width_, height=height_, res=res)
+plot(gamviz.age.income, select=1) +
+  l_ciPoly(alpha=0.7) +
+  l_fitLine(linetype = 1)  +
+  #l_points(size=1, alpha=0.6, shape=21, col=mycol2[4]) +
+  l_ciBar() +
+  l_rug() +
+  theme_bw() +
+  xlab("Years") +
+  ylab("Log-odds of infection risk") +
+  theme(text = element_text(size=txtsize))
+dev.off()
+
+# household income
+jpeg("Outputs/Human_GAM_hh_income.jpeg", units="mm", width=width_, height=height_, res=res)
+plot(gamviz.age.income, select=2) +
+  l_ciPoly(alpha=0.7) +
+  l_fitLine(linetype = 1)  +
+  l_ciBar() +
+  l_rug() +
+  theme_bw() +
+  xlab("$USD/day") +
+  ylab("Log-odds of infection risk") +
+  theme(text = element_text(size=txtsize))
+dev.off()
+
+# relative elevation
+jpeg("Outputs/Human_GAM_rel_elev.jpeg", units="mm", width=width_, height=height_, res=res)
+plot(gamviz.elev, select=3) +
+  l_ciPoly(alpha=0.7) +
+  l_fitLine(linetype = 1)  +
+  l_ciBar() +
+  l_rug() +
+  theme_bw() +
+  xlab("Metres") +
+  ylab("Log-odds of infection risk") +
+  theme(text = element_text(size=txtsize))
+dev.off()
+
+# land cover
+jpeg("Outputs/Human_GAM_land_cover.jpeg", units="mm", width=width_, height=height_, res=res)
+plot(gamviz.lc, select=3) +
+  l_ciPoly(alpha=0.7) +
+  l_fitLine(linetype = 1)  +
+  l_ciBar() +
+  l_rug() +
+  theme_bw() +
+  xlab("Proportion impervious") +
+  ylab("Log-odds of infection risk") +
+  theme(text = element_text(size=txtsize))
+dev.off()
+
+# education (years)
+jpeg("Outputs/Human_GAM_education.jpeg", units="mm", width=width_, height=height_, res=res)
+plot(gamviz.educ, select=3) +
+  l_ciPoly(alpha=0.7) +
+  l_fitLine(linetype = 1)  +
+  l_ciBar() +
+  l_rug() +
+  theme_bw() +
+  xlab("Years") +
+  ylab("Log-odds of infection risk") +
+  theme(text = element_text(size=txtsize))
+dev.off()
 
 ## Step 3 - univariable analysis ----
 
