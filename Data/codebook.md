@@ -1,4 +1,4 @@
-# Codebook: Linking rattiness, geography and environmental degradation to spillover *Leptospira* infections in marginalised urban settings
+# Linking rattiness, geography and environmental degradation to spillover *Leptospira* infections in marginalised urban settings: Codebook
 ## Rat data
 - `point_id`: unique sampling location ID
 - `valley`: Pau da Lima valley ID (1/2/4)
