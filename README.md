@@ -52,7 +52,7 @@ File: [control_R1_3Xi.csv](https://github.com/maxeyre/rattiness-infection-framew
 R scripts to conduct the analysis described in this article are available [here](https://github.com/maxeyre/rattiness-infection-framework/tree/main/Scripts). Each script includes a brief description of its function.
 
 #### 1. Exploratory analysis of rat data
-File: [1-rat-explore.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/1-rat-explore.R)
+File: [1-rat-explore.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/1-rattiness_nonspatial_model_fns.R)
 
 #### 2. Exploratory analysis of human data
 File: [2-human-explore.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/2-human-explore.R)
@@ -69,15 +69,26 @@ A description of all of the functions used in this analysis are given here to en
 #### 1. Non-spatial rattiness model
 File: [1-rattiness_nonspatial_model_fns.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/ECO_nonspatial_model_fns.R)
 
-#### 2. 
-File: [2-rattiness_spatial_model_fn.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/2-human-explore.R)
+#### 2. Geostatistical rattiness model
+File: [2-rattiness_spatial_model_fn.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/2-rattiness_spatial_model_fn.R)
 
-#### 3. Fit the joint rattiness-infection model and bootstrap for CIs
-File: [3-rattiness_spatial_model_predict_fn.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/3-fit-joint-model.R)
+#### 3.Spatial predictions for geostatistical rattiness model
+File: [3-rattiness_spatial_model_predict_fn.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/3-rattiness_spatial_model_predict_fn.R)
 
-#### 4. Spatial prediction for rattiness and probability of infection
-File: [4-spatial-prediction.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Scripts/4-spatial-prediction.R)
+#### 4. Joint rattiness-infection model
+File: [4-joint_model_fn.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/4-joint_model_fn.R)
 
+#### 5. Extra functions used for fitting the joint rattiness-infection model and making predictions
+File: [5-joint_model_extra_functions.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/5-joint_model_extra_functions.R)
+
+#### 6. Parametric bootstrapping for the joint rattiness-infection model
+File: [6-joint_model_bootstrap_fn.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/6-joint_model_bootstrap_fn.R)
+
+#### 7. Spatial prediction for joint rattiness-infection model (can predict for rattiness and probability of infection)
+File: [7-joint_model_predict_fn.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/7-joint_model_predict_fn.R)
+
+#### 8. Scaling functions used for scaling of data
+File: [scaling_fns.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/scaling_fns.R)
 
 ## Contact
 If you have any questions about the project, data or software please contact max.eyre@lstmed.ac.uk.
