@@ -45,7 +45,7 @@ warning("Values for the following model variables must be included in the predic
 # predicting for 30 year old male with an household per-capita income of 1 dollars/day who do not work as a travelling salesperson 
 # and rarely/never has contact with floodwater.
 grid.pred <- read.csv("Data/prediction_grid.csv") %>%
-  mutate(age = 30, sex = 1, floodwater_freq_bin = 0, hh_income_pcap_pess30_dailydol = 1, work_salesman = 0) %>%
+  mutate(age = 30, gender = 1, floodwater_freq_bin = 0, income_pcap = 1, work_salesman = 0) %>%
   mutate(floodwater_freq_bin = factor(floodwater_freq_bin,levels = c("0","1","2")),
          work_salesman = factor(work_salesman,levels = c("0","1")),
          elev_levels = case_when(

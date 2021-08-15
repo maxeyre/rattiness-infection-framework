@@ -32,36 +32,36 @@ sp <- Vectorize(sp)
 
 ## Step 1 - Load human data and summarise main characteristics ----
 human <- read_csv("Data/human_data.csv") %>%
-  mutate_at(c("sex","valley","elev_levels","hillside","open_sewer_10m",
+  mutate_at(c("gender","valley","elev_levels","hillside","open_sewer_10m",
               "exposed_to_sewer","work_constr", "work_salesman","work_trashcollect",
               "work_mud","work_floodwater","work_sewer","floodwater_freq_bin",
               "sew_water_freq_bin"),as.factor)
 
 ## Step 2 - Explore functional form of continuous variables using GAMs ----
 # age & income
-gam.age.income <- gam(data=human, outcome~s(age) + as.factor(sex)   + 
-                  as.factor(valley)  + s(hh_income_pcap_pess30_dailydol), 
+gam.age.income <- gam(data=human, outcome~s(age) + as.factor(gender)   + 
+                  as.factor(valley)  + s(income_pcap), 
                   family=binomial("logit"), method="REML")
 gamviz.age.income <- getViz(gam.age.income) 
 plot(gamviz.age.income, allTerms = T) # age: knot at 30yrs, income linear
 
 # relative elevation
-gam.elev <- gam(data=human, outcome~s(age) + as.factor(sex)   + 
-                  as.factor(valley)  + s(hh_income_pcap_pess30_dailydol) + 
+gam.elev <- gam(data=human, outcome~s(age) + as.factor(gender)   + 
+                  as.factor(valley)  + s(income_pcap) + 
                   s(rel_elev), family=binomial("logit"), method="REML")
 gamviz.elev <- getViz(gam.elev) 
 plot(gamviz.elev, allTerms = T) # knot at 20m
 
 # land cover
-gam.lc <- gam(data=human, outcome~s(age) + as.factor(sex)   + 
-                  as.factor(valley)  + s(hh_income_pcap_pess30_dailydol) + 
+gam.lc <- gam(data=human, outcome~s(age) + as.factor(gender)   + 
+                  as.factor(valley)  + s(income_pcap) + 
                 s(lc_30m_imperv), family=binomial("logit"), method="REML")
 gamviz.lc <- getViz(gam.lc)
 plot(gamviz.lc, allTerms = T) # linear
 
 # years of education
-gam.educ <- gam(data=human, outcome~s(age) + as.factor(sex)   + 
-                as.factor(valley)  + s(hh_income_pcap_pess30_dailydol) + 
+gam.educ <- gam(data=human, outcome~s(age) + as.factor(gender)   + 
+                as.factor(valley)  + s(income_pcap) + 
                 s(educ_yrs), family=binomial("logit"), method="REML")
 gamviz.educ <- getViz(gam.educ)
 plot(gamviz.educ, allTerms = T) # knot at 5yrs
@@ -139,7 +139,7 @@ dev.off()
 
 ## Step 3 - univariable analysis ----
 
-OR <- sapply(c("sex","hh_income_pcap_pess30_dailydol","illiteracy","lc_30m_imperv","open_sewer_10m","exposed_to_sewer",
+OR <- sapply(c("gender","income_pcap","illiteracy","lc_30m_imperv","open_sewer_10m","exposed_to_sewer",
                 "work_constr","work_salesman","work_trashcollect","work_mud","work_floodwater",
                 "work_sewer","hillside"),
               
@@ -183,7 +183,7 @@ aOR <- sapply(c("illiteracy","lc_30m_imperv","open_sewer_10m","exposed_to_sewer"
              
              function(var) {
                
-               formula    <- as.formula(paste("outcome ~ age + sp(age,30) + sex + as.factor(valley)  + hh_income_pcap_pess30_dailydol +", var, "+ (1|ID)"))
+               formula    <- as.formula(paste("outcome ~ age + sp(age,30) + gender + as.factor(valley)  + income_pcap +", var, "+ (1|ID)"))
                res.logist <- glmer(formula, data = human, family = binomial, nAGQ = 8, 
                                    control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
                n <- nrow(coef(summary(res.logist)))
@@ -197,7 +197,7 @@ aOR <- sapply(c("illiteracy","lc_30m_imperv","open_sewer_10m","exposed_to_sewer"
 var3aOR <- c("rel_elev + sp(rel_elev,20)","educ_yrs + sp(educ_yrs,5)","elev_levels","floodwater_freq_bin","sew_water_freq_bin","mud_freq_bin")
 var3outaOR <- tibble()
 for (i in 1:length(var3aOR)){
-  formula    <- as.formula(paste("outcome ~ age + sp(age,30) + sex + as.factor(valley)  + hh_income_pcap_pess30_dailydol +", var3aOR[i], "+ (1|ID)"))
+  formula    <- as.formula(paste("outcome ~ age + sp(age,30) + gender + as.factor(valley)  + income_pcap +", var3aOR[i], "+ (1|ID)"))
   res.logist <- glmer(formula, data = human, family = binomial, nAGQ = 8, 
                       control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
   x <- confint(res.logist,method="Wald")
@@ -206,7 +206,7 @@ for (i in 1:length(var3aOR)){
 }
 
 # get for confounders
-res.logist <- glmer(outcome ~ age + sp(age,30) + sex + as.factor(valley)  + hh_income_pcap_pess30_dailydol + (1|ID), data = human, family = binomial, nAGQ = 8, 
+res.logist <- glmer(outcome ~ age + sp(age,30) + gender + as.factor(valley)  + income_pcap + (1|ID), data = human, family = binomial, nAGQ = 8, 
                     control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
 x <- confint(res.logist,method="Wald")
 out <- cbind(coef(summary(res.logist))[2:7,],x[3:8,1:2])
@@ -224,7 +224,7 @@ aOR.full <- rbind(t(aOR),var3outaOR) %>%
 
 
 ## Step 4 - Model selection ----
-# a priori = age, sex, valley, income
+# a priori = age, gender, valley, income
 
 ### AIC SELECTION: within domains ----
 # social status
@@ -232,12 +232,12 @@ aOR.full <- rbind(t(aOR),var3outaOR) %>%
 human$age.sp30 <- sp(human$age, 30)
 data.socialstatus <- human %>% filter(!is.na(educ_yrs))
 model.socialstatus <- glmer(data =data.socialstatus, 
-                            outcome~  age + sp(age,30) + as.factor(sex) + as.factor(valley) + hh_income_pcap_pess30_dailydol +
+                            outcome~  age + sp(age,30) + as.factor(gender) + as.factor(valley) + income_pcap +
                               educ_yrs + sp(educ_yrs,5) + as.factor(illiteracy) + (1|ID), nAGQ = 8, 
                             control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)), family=binomial)
 
 options(na.action = "na.fail") 
-d.socialstatus <- dredge(global.model = model.socialstatus, fixed = ~age + sp(age,30) + as.factor(sex) + as.factor(valley) + hh_income_pcap_pess30_dailydol)
+d.socialstatus <- dredge(global.model = model.socialstatus, fixed = ~age + sp(age,30) + as.factor(gender) + as.factor(valley) + income_pcap)
 options(na.action = "na.omit")
 # SELECT: none
 
@@ -252,13 +252,13 @@ clusterExport(cl,"data.hhenv")
 clusterEvalQ(cl, library(lme4))
 
 model.hhenv <- glmer(data=data.hhenv, 
-                     outcome~  age + age.sp30 + as.factor(sex) + as.factor(valley) + hh_income_pcap_pess30_dailydol +
+                     outcome~  age + age.sp30 + as.factor(gender) + as.factor(valley) + income_pcap +
                        lc_30m_imperv + as.factor(elev_levels) +  hillside + rel_elev + rel_elev.sp20 +
                        open_sewer_10m + exposed_to_sewer + (1|ID), nAGQ = 8, 
                      control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)), family=binomial())
 options(na.action = "na.fail") 
 d.hhenv <- pdredge(global.model = model.hhenv, 
-                   fixed = ~age + age.sp30 + as.factor(sex) + as.factor(valley) + hh_income_pcap_pess30_dailydol,
+                   fixed = ~age + age.sp30 + as.factor(gender) + as.factor(valley) + income_pcap,
                    cluster = cl,
                    subset=  (rel_elev  & rel_elev.sp20) | !rel_elev.sp20)
 options(na.action = "na.omit")
@@ -272,13 +272,13 @@ clusterExport(cl,"data.occuprisk")
 clusterEvalQ(cl, library(lme4))
 
 model.occuprisk <- glmer(data=data.occuprisk, 
-                     outcome~  age + age.sp30 + as.factor(sex) + as.factor(valley) + hh_income_pcap_pess30_dailydol +
+                     outcome~  age + age.sp30 + as.factor(gender) + as.factor(valley) + income_pcap +
                        work_constr + work_salesman+ work_trashcollect+ work_mud+ 
                        work_floodwater+ work_sewer + (1|ID), nAGQ = 8, 
                      control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)), family=binomial())
 options(na.action = "na.fail") 
 d.occuprisk <- pdredge(global.model = model.occuprisk, 
-                       fixed = ~age + age.sp30 + as.factor(sex) + as.factor(valley) + hh_income_pcap_pess30_dailydol,
+                       fixed = ~age + age.sp30 + as.factor(gender) + as.factor(valley) + income_pcap,
                        cluster = cl)
 options(na.action = "na.omit")
 # SELECT: work_salesman (delta == 0)
@@ -291,11 +291,11 @@ clusterExport(cl,"data.expose")
 clusterEvalQ(cl, library(lme4))
 
 model.expose <- glmer(data=data.expose, 
-                         outcome~  age + age.sp30 + as.factor(sex) + as.factor(valley) + hh_income_pcap_pess30_dailydol +
+                         outcome~  age + age.sp30 + as.factor(gender) + as.factor(valley) + income_pcap +
                         as.factor(floodwater_freq_bin) + as.factor(sew_water_freq_bin) +  (1|ID), nAGQ = 8, 
                       control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)), family=binomial())
 options(na.action = "na.fail") 
-d.expose <- pdredge(global.model = model.expose, fixed = ~age + age.sp30 + as.factor(sex) + as.factor(valley) + hh_income_pcap_pess30_dailydol,
+d.expose <- pdredge(global.model = model.expose, fixed = ~age + age.sp30 + as.factor(gender) + as.factor(valley) + income_pcap,
                     cluster = cl)
 options(na.action = "na.omit")
 # SELECT: floodwater_freq_bin
@@ -308,13 +308,13 @@ clusterExport(cl,"data.all")
 clusterEvalQ(cl, library(lme4))
 
 model.all <- glmer(data=data.all, 
-                   outcome ~ age + age.sp30 + as.factor(sex) + as.factor(valley) + hh_income_pcap_pess30_dailydol +
+                   outcome ~ age + age.sp30 + as.factor(gender) + as.factor(valley) + income_pcap +
                   lc_30m_imperv + work_salesman + floodwater_freq_bin +  
                     elev_levels*pred.mean.rattiness + (1|ID),  family=binomial,
                    nAGQ = 8, 
                    control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
 options(na.action = "na.fail") 
-d.all <- pdredge(global.model = model.all, fixed = ~age + age.sp30 + as.factor(sex) + as.factor(valley) + hh_income_pcap_pess30_dailydol +
+d.all <- pdredge(global.model = model.all, fixed = ~age + age.sp30 + as.factor(gender) + as.factor(valley) + income_pcap +
                    elev_levels*pred.mean.rattiness,
                     cluster = cl)
 # SELECT: work_salesman + floodwater_freq_bin
@@ -322,8 +322,8 @@ d.all <- pdredge(global.model = model.all, fixed = ~age + age.sp30 + as.factor(s
 # final model
 human$elev_levels <- relevel(human$elev_levels,ref = c("3"))
 model.human.mixed <- glmer(data=human, 
-                           outcome ~ age + sp(age, 30) + as.factor(sex) + as.factor(valley) + 
-                             hh_income_pcap_pess30_dailydol + work_salesman +  floodwater_freq_bin +  
+                           outcome ~ age + sp(age, 30) + as.factor(gender) + as.factor(valley) + 
+                             income_pcap + work_salesman +  floodwater_freq_bin +  
                              elev_levels*pred.mean.rattiness + (1|ID), family=binomial, nAGQ = 8, 
                            control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
 summary(model.human.mixed)
@@ -332,8 +332,8 @@ summary(model.human.mixed)
 human$elev_levels <- relevel(human$elev_levels,ref = c("1"))
 levels(human$elev_levels)
 model.human.interact <- glmer(data=human, 
-                           outcome ~ age + sp(age, 30) + as.factor(sex) + as.factor(valley) + 
-                             hh_income_pcap_pess30_dailydol + work_salesman +  floodwater_freq_bin +  
+                           outcome ~ age + sp(age, 30) + as.factor(gender) + as.factor(valley) + 
+                             income_pcap + work_salesman +  floodwater_freq_bin +  
                              elev_levels*pred.mean.rattiness + (1|ID), family=binomial, nAGQ = 8, 
                            control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
 
@@ -353,8 +353,8 @@ p.inter <- interact_plot(model.human.interact, pred = pred.mean.rattiness, line.
 human$units.m <- 1
 human <- as.data.frame(human)
 spatcor <- spat.corr.diagnostic(data= human, 
-                     outcome~  age + sp(age, 30) + as.factor(sex) + as.factor(valley) + 
-                       hh_income_pcap_pess30_dailydol + as.factor(work_salesman) +  as.factor(floodwater_freq_bin) +  
+                     outcome~  age + sp(age, 30) + as.factor(gender) + as.factor(valley) + 
+                       income_pcap + as.factor(work_salesman) +  as.factor(floodwater_freq_bin) +  
                        as.factor(elev_levels),
                      coords=~X+Y,
                      ID.coords = create.ID.coords(human, coords= ~X+Y),
