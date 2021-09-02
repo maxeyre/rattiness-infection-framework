@@ -11,9 +11,10 @@ File: [rat_data.csv](https://github.com/maxeyre/rattiness-infection-framework/bl
 The cleaned dataset for the cross-sectional survey in Pau da Lima community, Salvador, Brazil. It contains information on the five rat abundance indices (traps, track plates, number of burrows, presence of faeces and presence of trails), and was collected between October and December 2014. It is georeferenced and includes all relevant covariate values used in the model described in the article. This dataset was collected by and belongs to the [Instituto de Saúde Coletiva, Universidade Federal da Bahia (ISC-UFBA)](http://www.isc.ufba.br/). If you use this dataset please could you cite ISC-UFBA and this published article (see license at bottom of page).
 
 #### 2. Human data
-File: [human_data.csv](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Data/human_data.csv) 
+<!-- File: [human_data.csv](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Data/human_data.csv) -->
+Not included
 
-The cleaned dataset for the human cohort study in Pau da Lima community, Salvador, Brazil. It is georeferenced and includes all relevant covariate values used in the model described in the article. This dataset was collected by and belongs to the [Instituto de Saúde Coletiva, Universidade Federal da Bahia (ISC-UFBA)](http://www.isc.ufba.br/). If you use this dataset please could you cite ISC-UFBA and this published article (see license at bottom of page).
+The cleaned dataset for the human cohort study in Pau da Lima community, Salvador, Brazil. It is georeferenced and includes all relevant covariate values used in the model described in the article. This dataset was collected by and belongs to the [Instituto de Saúde Coletiva, Universidade Federal da Bahia (ISC-UFBA)](http://www.isc.ufba.br/). <!-- If you use this dataset please could you cite ISC-UFBA and this published article (see license at bottom of page).-->
 
 #### 3. Prediction grid
 File: [prediction_grid.csv](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Data/prediction_grid.csv)
