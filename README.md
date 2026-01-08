@@ -91,7 +91,7 @@ File: [7-joint_model_predict_fn.R](https://github.com/maxeyre/rattiness-infectio
 File: [scaling_fns.R](https://github.com/maxeyre/rattiness-infection-framework/blob/main/Functions/scaling_fns.R)
 
 ## Contact
-If you have any questions about the project, data or software please contact max.eyre@lstmed.ac.uk.
+If you have any questions about the project, data or software please contact max.eyre@lshtm.ac.uk.
 
 ## Licenses
 #### Data:
